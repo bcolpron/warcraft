@@ -9,6 +9,11 @@ export default class Camera {
         this.y = y;
     }
 
+    isVisible(x, y) {
+        return x >= this.x && x < this.x + SCREEN_SIZE_TILES_X
+            && y >= this.y && y < this.y + SCREEN_SIZE_TILES_Y;
+    }
+
     panLeft() {
         if (this.x > 0) this.x -= 1;
     }
