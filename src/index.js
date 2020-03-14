@@ -1,5 +1,3 @@
-import { Direction, anim } from "./constants";
-import Move from './move';
 import Entity from './entity';
 import Bot from './bot';
 import {images, loadImages} from './images';
@@ -7,46 +5,37 @@ import Camera from "./camera";
 import Map from "./map";
 import Minimap from "./minimap";
 import fps from "./devinfo";
+import View from './view';
+import Game from './game';
 
-function pos(x, y) {return {x: x, y: y};}
-
-function main() {
+document.addEventListener("DOMContentLoaded", function (event) {
     loadImages().then(ready);
-}
+});
 
 function ready() {
-    var canvas = document.getElementById("myCanvas");
-    var ctx = canvas.getContext("2d");
 
     const map = new Map(images.map, 64, 64);
     const camera = new Camera(map, 34, 16);
     const minimap = new Minimap(images.minimap, camera);
+    const game = new Game();
 
-    var p = new Entity(images.peasant, pos(39, 21));
-    var bot = new Bot(images.peasant, pos(35,18));
+    game.entities.push(new Entity(images.peasant, 39, 21));
+    game.entities.push(new Bot(images.peasant, 35, 18));
 
-    function draw() {
+    const view = new View(map, minimap, camera, game.entities);
+
+    function gameloop() {
         const now = performance.now();
         fps(now);
 
-        ctx.drawImage(images.frame, 0, 0);
-        ctx.drawImage(map.background, camera.x * 32, camera.y * 32, 480, 352, 144, 24, 480, 352);
-        minimap.draw(ctx);
+        game.update(now);
 
-        ctx.save();
-        ctx.rect(144, 24, 480, 352);
-        ctx.clip();
+        view.update();
 
-        bot.update(now);
-        bot.draw(ctx, camera);
-
-        p.update(now);
-        p.draw(ctx, camera);
-
-        ctx.restore();
-        requestAnimationFrame(draw);
+        requestAnimationFrame(gameloop);
     }
 
+    const canvas = document.getElementById("myCanvas");
     canvas.addEventListener('click', function(event) {
         const x = event.pageX - canvas.offsetLeft,
               y = event.pageY - canvas.offsetTop;
@@ -75,9 +64,5 @@ function ready() {
         if (prevent) event.preventDefault();
     });
 
-    requestAnimationFrame(draw);
+    requestAnimationFrame(gameloop);
 }
-
-document.addEventListener("DOMContentLoaded", function (event) {
-    main();
-});

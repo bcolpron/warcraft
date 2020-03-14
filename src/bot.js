@@ -4,12 +4,12 @@ import Move from './move';
 import {images} from './images';
 
 export default class Bot extends Entity {
-    constructor(sprites, pos) {
-        super(sprites, pos);
+    constructor(sprites, x, y) {
+        super(sprites, x, y);
         this.move = new Move(this.pos, Direction.EAST);
     }
 
-    update(now) {
+    update(game, now) {
         this.move.update(now);
         if (this.move.isDone(now)) {
             this.move = new Move(this.move.dst, this.move.bearing === Direction.EAST ? Direction.SOUTHEAST
