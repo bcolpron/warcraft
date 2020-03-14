@@ -8,7 +8,6 @@ class Move {
         this.start = performance.now();
         this.duration = 1000/speed;
         this.update(this.start);
-        console.log(this.orig);
     };
 
     update(now) {

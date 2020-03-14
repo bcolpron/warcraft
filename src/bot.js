@@ -23,10 +23,10 @@ export default class Bot extends Entity {
         }
     }
 
-    draw(ctx, viewport) {
+    draw(ctx, camera) {
         ctx.drawImage(images.peasant, 64*this.move.bearing.sprite, 64*anim[this.move.sprite], 64, 64,
-            144+16 + this.move.pos.x - viewport.offsetX*32,
-            24+16 + this.move.pos.y - viewport.offsetY*32,
+            144+16 + this.move.pos.x - camera.x*32,
+            24+16 + this.move.pos.y - camera.y*32,
             64, 64);
     }
 }
