@@ -22,12 +22,4 @@ export default class Bot extends Entity {
             : Direction.EAST);
         }
     }
-
-    draw(ctx, camera) {
-        const offsets = this.move.getOffsets(camera);
-        ctx.drawImage(images.peasant, 64*this.move.bearing.sprite, 64*anim[this.move.sprite], 64, 64,
-            144+16 + offsets.x - camera.x*32,
-            24+16 + offsets.y - camera.y*32,
-            64, 64);
-    }
 }

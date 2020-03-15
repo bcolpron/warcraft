@@ -26,18 +26,15 @@ export default class Entity {
 
     draw(ctx, camera) {
         if (camera.isVisible(this.pos.x, this.pos.y)) {
-            const offsets = this.getOffsets();
+            const pos = camera.getScreenPos(this.getOffsets());
             const orientation = this.move ? this.move.bearing.sprite : this.bearing.sprite;
             const frame = this.move ? this.move.sprite : this.sprite;
             ctx.drawImage(this.sprites, 64*orientation, 64*anim[frame], 64, 64,
-                    144 - 16 + offsets.x - camera.x * 32,
-                    24 - 16 + offsets.y - camera.y * 32,
-                    64, 64);
+                          pos.x,pos.y, 64, 64);
         }
     }
 
     moveTo(x,y) {
-        console.log("ok ", this.move);
         if (!this.move) {
             this.move = new Move(this.pos, this.nextMoveToward(x,y));
             this.pos = this.move.dst;
