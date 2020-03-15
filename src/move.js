@@ -11,14 +11,17 @@ class Move {
     };
 
     update(now) {
-        const progress = (now-this.start)/this.duration;
-        this.pos = {x: Math.floor(32*(this.orig.x + (this.dst.x - this.orig.x)*progress)) & 0xFFFFFFFE,
-                    y: Math.floor(32*(this.orig.y + (this.dst.y - this.orig.y)*progress)) & 0xFFFFFFFE};
-        this.sprite = Math.floor(8*progress);
+        this.progress = (now-this.start)/this.duration;
+        this.sprite = Math.floor(8*this.progress);
     }
 
-    isDone(now) {
-        return now > this.start + this.duration;
+    getOffsets() {
+        return {x: Math.floor(32*(this.orig.x + (this.dst.x - this.orig.x)*this.progress)) & 0xFFFFFFFE,
+                y: Math.floor(32*(this.orig.y + (this.dst.y - this.orig.y)*this.progress)) & 0xFFFFFFFE};
+    }
+
+    isDone() {
+        return this.progress > 1;
     }
 }
 

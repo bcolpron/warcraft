@@ -11,7 +11,7 @@ export default class Bot extends Entity {
 
     update(game, now) {
         this.move.update(now);
-        if (this.move.isDone(now)) {
+        if (this.move.isDone()) {
             this.move = new Move(this.move.dst, this.move.bearing === Direction.EAST ? Direction.SOUTHEAST
             : this.move.bearing === Direction.SOUTHEAST ? Direction.SOUTH
             : this.move.bearing === Direction.SOUTH ? Direction.SOUTHWEST
@@ -24,9 +24,10 @@ export default class Bot extends Entity {
     }
 
     draw(ctx, camera) {
+        const offsets = this.move.getOffsets(camera);
         ctx.drawImage(images.peasant, 64*this.move.bearing.sprite, 64*anim[this.move.sprite], 64, 64,
-            144+16 + this.move.pos.x - camera.x*32,
-            24+16 + this.move.pos.y - camera.y*32,
+            144+16 + offsets.x - camera.x*32,
+            24+16 + offsets.y - camera.y*32,
             64, 64);
     }
 }

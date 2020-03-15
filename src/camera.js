@@ -14,6 +14,13 @@ export default class Camera {
             && y >= this.y && y < this.y + SCREEN_SIZE_TILES_Y;
     }
 
+    getScreenPos(realX,realY) {
+        return {
+            x: 144+16 + realX - thix.x*32,
+            y: 24+16 + realY - thix.y*32,
+        }
+    }
+
     panLeft() {
         if (this.x > 0) this.x -= 1;
     }

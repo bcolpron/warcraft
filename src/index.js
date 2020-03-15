@@ -18,11 +18,11 @@ function ready() {
     const camera = new Camera(map, 34, 16);
     const minimap = new Minimap(images.minimap, camera);
     const game = new Game();
+    const view = new View(map, minimap, camera, game.entities);
 
     game.entities.push(new Entity(images.peasant, 39, 21));
     game.entities.push(new Bot(images.peasant, 35, 18));
 
-    const view = new View(map, minimap, camera, game.entities);
 
     function gameloop() {
         const now = performance.now();
@@ -39,7 +39,7 @@ function ready() {
     canvas.addEventListener('click', function(event) {
         const x = event.pageX - canvas.offsetLeft,
               y = event.pageY - canvas.offsetTop;
-        console.log(x,y);
+        game.onClick(x,y);
     });
 
     document.addEventListener("keydown", function (event) {
