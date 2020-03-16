@@ -21,6 +21,11 @@ export default class Camera {
         }
     }
 
+    getTile(x, y) {
+        return {x: Math.floor((x - 144) / 32) + this.x,
+                y: Math.floor((y - 24) / 32) + this.y };
+    }
+
     panLeft() {
         if (this.x > 0) this.x -= 1;
     }

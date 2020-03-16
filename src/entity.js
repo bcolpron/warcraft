@@ -35,15 +35,39 @@ export default class Entity {
     }
 
     moveTo(x,y) {
-        if (!this.move) {
-            this.move = new Move(this.pos, this.nextMoveToward(x,y));
+        const dst = this.nextMoveToward(x,y);
+        if (dst && !this.move) {
+            this.move = new Move(this.pos, dst);
             this.pos = this.move.dst;
             this.bearing = this.move.bearing;
         }
     }
 
     nextMoveToward(x,y) {
-        return Direction.SOUTHWEST;
+        if (x > this.pos.x) {
+            if (y > this.pos.y) {
+                return Direction.SOUTHEAST;
+            } else if (y < this.pos.y) {
+                return Direction.NORTHEAST;
+            } else {
+                return Direction.EAST;
+            }
+        } else if (x < this.pos.x) {
+            if (y > this.pos.y) {
+                return Direction.SOUTHWEST;
+            } else if (y < this.pos.y) {
+                return Direction.NORTHWEST;
+            } else {
+                return Direction.WEST;
+            }
+        } else {
+            if (y > this.pos.y) {
+                return Direction.SOUTH;
+            } else if (y < this.pos.y) {
+                return Direction.NORTH;
+            }
+        }
+        return null;    // requested destination == current position!
     }
 }
 
