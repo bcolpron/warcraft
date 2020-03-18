@@ -1,3 +1,4 @@
+import View from "./view";
 
 const SCREEN_SIZE_TILES_X = 15;
 const SCREEN_SIZE_TILES_Y = 11;
@@ -16,14 +17,25 @@ export default class Camera {
 
     getScreenPos(pos) {
         return {
-            x: 144 - 16 + pos.x - this.x*32,
-            y: 24 - 16 + pos.y - this.y*32,
+            x: View.MAIN.left - 16 + pos.x - this.x*32,
+            y: View.MAIN.top - 16 + pos.y - this.y*32,
         }
     }
 
-    getTile(x, y) {
-        return {x: Math.floor((x - 144) / 32) + this.x,
-                y: Math.floor((y - 24) / 32) + this.y };
+    getTileAt(x, y) {
+        return {x: Math.floor((x - View.MAIN.left) / 32) + this.x,
+                y: Math.floor((y - View.MAIN.top) / 32) + this.y };
+    }
+
+    goTo(x,y) {
+        if (x < 0) x=0;
+        if (x >= this.map.sizeX - SCREEN_SIZE_TILES_X) x = this.map.sizeX - SCREEN_SIZE_TILES_X;
+
+        if (y < 0) y=0;
+        if (y >= this.map.sizeY - SCREEN_SIZE_TILES_Y) y = this.map.sizeY - SCREEN_SIZE_TILES_Y;
+
+        this.x = Math.floor(x);
+        this.y = Math.floor(y);
     }
 
     panLeft() {
@@ -36,6 +48,7 @@ export default class Camera {
 
     panUp() {
         if (this.y > 0) this.y -= 1;
+        console.log(this.y);
     }
 
     panDown() {
