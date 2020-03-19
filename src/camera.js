@@ -28,6 +28,9 @@ export default class Camera {
     }
 
     goTo(x,y) {
+        x -= SCREEN_SIZE_TILES_X/2;
+        y -= SCREEN_SIZE_TILES_Y/2;
+
         if (x < 0) x=0;
         if (x >= this.map.sizeX - SCREEN_SIZE_TILES_X) x = this.map.sizeX - SCREEN_SIZE_TILES_X;
 

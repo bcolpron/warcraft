@@ -43,6 +43,17 @@ function ready() {
               y = event.pageY - canvas.offsetTop;
         controller.onClick(x,y);
     });
+    canvas.addEventListener('mousedown', function() {
+        const onMouseMove = function(event) {
+            const x = event.pageX - canvas.offsetLeft,
+                y = event.pageY - canvas.offsetTop;
+            controller.onMouseMove(x,y);
+        };
+        canvas.addEventListener('mousemove', onMouseMove);
+        canvas.addEventListener('mouseup', function(event) {
+            canvas.removeEventListener('mousemove', onMouseMove);
+        });
+    });
 
     document.addEventListener("keydown", function (event) {
         let prevent = true;

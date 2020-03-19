@@ -17,4 +17,12 @@ export default class Controller {
                 (y - View.MINIMAP.top)/2);
         }
     }
+
+    onMouseMove(x, y) {
+        if (View.MINIMAP.isIn(x,y)) {
+            this.camera.goTo(
+                (x - View.MINIMAP.left)/2,
+                (y - View.MINIMAP.top)/2);
+        }
+    }
 }
