@@ -1,0 +1,46 @@
+<html>
+
+<head>
+    <style type="text/css">
+        body {
+            background-color: black;
+            width: 100%;
+            margin: 0px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        canvas {
+        }
+        .main {
+            display: flex;
+        }
+        .map {
+            flex: 80%;
+            overflow: scroll;
+            height: 80vh;
+        }
+        .menu {
+            flex: 200px;
+        }
+        textarea {
+            margin-top: 10px;
+            height: 10em;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="map">
+            <canvas id="canvas" width="2048" height="2048"> </canvas>
+        </div>
+        <div class="menu">
+
+        </div>
+    </div>
+    <textarea id="output"></textarea>
+</body>
+
+<script src="main.js"></script>
+</html>

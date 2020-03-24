@@ -8,9 +8,14 @@ import fps from "./devinfo";
 import View from './view';
 import Game from './game';
 import Controller from './controller';
+import editor from './editor';
 
 document.addEventListener("DOMContentLoaded", function (event) {
-    loadImages().then(ready);
+    if (location.pathname === '/') {
+        loadImages().then(ready);
+    } else if (location.pathname === "/editor.html") {
+        editor.init();
+    }
 });
 
 function ready() {
