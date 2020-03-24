@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function (event) {
 function ready() {
 
     const map = new Map(images.map, 64, 64);
-    const camera = new Camera(map, 34, 16);
+    const camera = new Camera(map, 35, 16);
     const minimap = new Minimap(images.minimap, camera);
     const game = new Game();
     const view = new View(map, minimap, camera, game.entities);

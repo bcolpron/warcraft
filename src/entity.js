@@ -7,13 +7,14 @@ export default class Entity {
         this.pos = {x: x, y: y};
         this.bearing = Direction.SOUTH;
         this.sprite = 0;
+        this.nextMoves = null;
     }
 
     update(game, tick) {
         if (this.move) {
             this.move.update(tick);
             if (this.move.isDone()) {
-                this.move = null;
+                this._doNextMove();
             }
         }
     }
@@ -35,12 +36,39 @@ export default class Entity {
     }
 
     moveTo(x,y) {
-        const dst = this.nextMoveToward(x,y);
-        if (dst && !this.move) {
+        if (!this.move) {
+            this.nextMoves = this.movesToward(x,y);
+            this._doNextMove();
+        }
+    }
+
+    _doNextMove() {
+        if (this.nextMoves.length === 0) {
+            this.move = this.nextMoves = null;
+            return;
+        }
+        
+        const dst = this.nextMoveToward(this.nextMoves[0].x,this.nextMoves[0].y);
+        this.nextMoves = this.nextMoves.slice(1);
+
+        if (dst) {
             this.move = new Move(this.pos, dst);
             this.pos = this.move.dst;
             this.bearing = this.move.bearing;
+        } else {
+            this._doNextMove();
         }
+    }
+
+    movesToward(x,y) {
+        const max = Math.max(Math.abs(x - this.pos.x), Math.abs(y - this.pos.y));
+        const moves = new Array(max);
+        for (let i = 0; i != max; ++i) {
+            moves[i] = {
+                x: this.pos.x + Math.round((i+1) * (x - this.pos.x) / max),
+                y: this.pos.y + Math.round((i+1) * (y - this.pos.y) / max)};
+        }
+        return moves;
     }
 
     nextMoveToward(x,y) {
